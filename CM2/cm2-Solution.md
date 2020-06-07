@@ -1,5 +1,3 @@
-
-
 <p class="has-line-data" data-line-start="0" data-line-end="1">This is a write up for the crackme called “cm2” found on <a href="https://crackmes.one/">https://crackmes.one/</a></p>
 <p class="has-line-data" data-line-start="2" data-line-end="4">Let’s start by running it with PEStudio. We can observe the following information:<br>
 -Signature of the program:Dev-C++ 4.9.9.2 -&gt; Bloodshed Software</p>
@@ -21,8 +19,8 @@ I do this, because we will see that the logic does two things:</p>
 <li class="has-line-data" data-line-start="21" data-line-end="23">Password validation</li>
 </ol>
 <p class="has-line-data" data-line-start="23" data-line-end="24">#------------------------- LENGTH INPUT VALIDATION -------------------------</p>
-<p class="has-line-data" data-line-start="25" data-line-end="26">0040135 | E8 48060000                   | call &lt;JMP.&amp;scanf&gt;                       |</p>
-<p class="has-line-data" data-line-start="27" data-line-end="53">0040135 | 8D85 E8FEFFFF                 | lea eax,dword ptr ss:[ebp-118]          |<br>
+<p class="has-line-data" data-line-start="25" data-line-end="52">0040135 | E8 48060000                   | call &lt;JMP.&amp;scanf&gt;                       |<br>
+0040135 | 8D85 E8FEFFFF                 | lea eax,dword ptr ss:[ebp-118]          |<br>
 0040135 | 890424                        | mov dword ptr ss:[esp],eax              | [esp]:“password”<br>
 0040136 | E8 2A060000                   | call &lt;JMP.&amp;strlen&gt;                      |<br>
 0040136 | 8945 F4                       | mov dword ptr ss:[ebp-C],eax            |<br>
@@ -48,8 +46,8 @@ I do this, because we will see that the logic does two things:</p>
 0040139 | 8945 F4                       | mov dword ptr ss:[ebp-C],eax            |<br>
 0040139 | 837D F4 00                    | cmp dword ptr ss:[ebp-C],0              |<br>
 004013A | 0F85 88000000                 | jne cm2.40142F                          |</p>
-<p class="has-line-data" data-line-start="54" data-line-end="55">This logic can be explained as follows:</p>
-<p class="has-line-data" data-line-start="56" data-line-end="66">1)Takes the input length, multiplies that value against itself and the result is stored in EAX.<br>
+<p class="has-line-data" data-line-start="53" data-line-end="54">This logic can be explained as follows:</p>
+<p class="has-line-data" data-line-start="55" data-line-end="65">1)Takes the input length, multiplies that value against itself and the result is stored in EAX.<br>
 Interesting to know, at this point EAX and EDX have the same value.<br>
 2)Previous result is multiplied again with itself, but this time the result is stored in ECX<br>
 3)The EAX value is operated with  SHL (Shift Left) and the result is sum with the EDX value<br>
@@ -59,12 +57,12 @@ Interesting to know, at this point EAX and EDX have the same value.<br>
 saves the result in EAX and subtracts value 28.<br>
 7)Compares previous result with “0”. If both values are 0, the result of the comparison is true and the password is valid.<br>
 If they are different, result is false and password is not valid.</p>
-<p class="has-line-data" data-line-start="67" data-line-end="69">So, based on this logic, we know we need a password whose lenght allows us to obtain that “0” result, which means is valid. To achieve this, the lenght we need for the password to be valid,<br>
+<p class="has-line-data" data-line-start="66" data-line-end="68">So, based on this logic, we know we need a password whose lenght allows us to obtain that “0” result, which means is valid. To achieve this, the lenght we need for the password to be valid,<br>
 is any word that is 7 characters long (Check the <a href="http://script-cm2.py">script-cm2.py</a> file)</p>
-<p class="has-line-data" data-line-start="70" data-line-end="72">Now that we know this, instead of using the word “password” which is 8 characters long, we are going to use “abcdefg” which is 7 characters long:<br>
+<p class="has-line-data" data-line-start="69" data-line-end="71">Now that we know this, instead of using the word “password” which is 8 characters long, we are going to use “abcdefg” which is 7 characters long:<br>
 value = abcdefg</p>
-<p class="has-line-data" data-line-start="73" data-line-end="74">The following instructions are found in the “false” part of the program’s logic:</p>
-<p class="has-line-data" data-line-start="75" data-line-end="111">#----------------------------- PASSWORD VALIDATION -----------------------------<br>
+<p class="has-line-data" data-line-start="72" data-line-end="73">The following instructions are found in the “false” part of the program’s logic:</p>
+<p class="has-line-data" data-line-start="74" data-line-end="110">#----------------------------- PASSWORD VALIDATION -----------------------------<br>
 004013B1 | 83BD E4FE | CMP DWORD PTR SS:[EBP - 11C], 5                   |<br>
 004013B8 | 7F 3D     | JG cm2.4013F7                                     |<br>
 004013BA | 8D45 F8   | LEA EAX, DWORD PTR SS:[EBP - 8]                   |<br>
@@ -101,5 +99,5 @@ value = abcdefg</p>
 00401418 | 8945 F0   | MOV DWORD PTR SS:[EBP - 10], EAX                  |–&gt; Loads EAX on the stack<br>
 0040141B | 837D F0 0 | CMP DWORD PTR SS:[EBP - 10], 0                    |–&gt; If the result is not 0, show us the bad password</p>
 <hr>
-<p class="has-line-data" data-line-start="112" data-line-end="114">Now that we have a better understanding about the crackme, check the keygen build it in python.<br>
+<p class="has-line-data" data-line-start="111" data-line-end="113">Now that we have a better understanding about the crackme, check the keygen build it in python.<br>
 r3v3r1nG 4 Fun :)</p>
