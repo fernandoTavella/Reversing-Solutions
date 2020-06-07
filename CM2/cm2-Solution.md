@@ -22,7 +22,9 @@ I do this, because we will see that the logic does two things:
 2) Password validation
 
 #------------------------- LENGTH INPUT VALIDATION -------------------------
+
 0040135 | E8 48060000                   | call <JMP.&scanf>                       |
+
 0040135 | 8D85 E8FEFFFF                 | lea eax,dword ptr ss:[ebp-118]          |
 0040135 | 890424                        | mov dword ptr ss:[esp],eax              | [esp]:"password"
 0040136 | E8 2A060000                   | call <JMP.&strlen>                      |
