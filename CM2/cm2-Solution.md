@@ -24,7 +24,6 @@ I do this, because we will see that the logic does two things:
 #------------------------- LENGTH INPUT VALIDATION -------------------------
 
 0040135 | E8 48060000                   | call <JMP.&scanf>                       |
-
 0040135 | 8D85 E8FEFFFF                 | lea eax,dword ptr ss:[ebp-118]          |
 0040135 | 890424                        | mov dword ptr ss:[esp],eax              | [esp]:"password"
 0040136 | E8 2A060000                   | call <JMP.&strlen>                      |
@@ -74,6 +73,7 @@ value = abcdefg
 The following instructions are found in the "false" part of the program's logic:
 
 #----------------------------- PASSWORD VALIDATION -----------------------------
+
 004013B1 | 83BD E4FE | CMP DWORD PTR SS:[EBP - 11C], 5                   |
 004013B8 | 7F 3D     | JG cm2.4013F7                                     |
 004013BA | 8D45 F8   | LEA EAX, DWORD PTR SS:[EBP - 8]                   |
